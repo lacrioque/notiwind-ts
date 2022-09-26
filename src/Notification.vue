@@ -1,120 +1,125 @@
-<script>
-import { TransitionGroup, h } from 'vue'
-import { events } from './events'
+<script setup lang="ts">
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { TransitionGroup } from "vue";
+import {
+  inject,
+  computed,
+  onMounted,
+  ref,
+  reactive,
+} from "vue";
+import type { Ref } from "vue";
+import type { Handler } from "mitt";
 
-export default {
-  inject: {
-    context: { default: { group: '', position: 'top' } },
-  },
-  props: {
-    maxNotifications: {
-      type: Number,
-      default: 10,
-    },
-    enter: {
-      type: String,
-      default: ''
-    },
-    enterFrom: {
-      type: String,
-      default: ''
-    },
-    enterTo: {
-      type: String,
-      default: ''
-    },
-    leave: {
-      type: String,
-      default: ''
-    },
-    leaveFrom: {
-      type: String,
-      default: ''
-    },
-    leaveTo: {
-      type: String,
-      default: ''
-    },
-    move: {
-      type: String,
-      default: ''
-    },
-    moveDelay: {
-      type: String,
-      default: ''
-    }
-  },
-  emits: ['close'],
-  data() {
-    return {
-      notifications: [],
-      timeouts: {},
-    }
-  },
-  computed: {
-    sortedNotifications() {
-      if (this.context.position === 'bottom') {
-        return [...this.notificationsByGroup]
-          .slice(0, this.maxNotifications)
-      }
+import { events } from "./events";
 
-      // if not bottom reverse the array
-      return [...this.notificationsByGroup]
-        .reverse()
-        .slice(0, this.maxNotifications)
-    },
-    notificationsByGroup() {
-      return this.notifications.filter((n) => n.group === this.context.group)
-    },
-  },
-  mounted() {
-    events.on('notify', this.add)
-    events.on('close', this.remove)
-  },
-  methods: {
-    add({ notification, timeout}) {
-      const DEFAULT_TIMEOUT = 3000
+// Set Context from NotificationGroup
+const context = inject("context") as Notiwind.NotificationContext;
 
-      this.notifications.push(notification)
+// Set props
+const props = withDefaults(
+  defineProps<{
+    maxNotifications?: number;
+    enter?: string;
+    enterFrom?: string;
+    enterTo?: string;
+    leave?: string;
+    leaveFrom?: string;
+    leaveTo?: string;
+    move?: string;
+    moveDelay?: string;
+  }>(),
+  {
+    maxNotifications: 10,
+    enter: "",
+    enterFrom: "",
+    enterTo: "",
+    leave: "",
+    leaveFrom: "",
+    leaveTo: "",
+    move: "",
+    moveDelay: "",
+  }
+);
 
-      this.timeouts[notification.id] = setTimeout(() => {
-        this.remove(notification.id)
-      }, timeout || DEFAULT_TIMEOUT)
-    },
-    close(id) {
-      this.$emit('close')
-      this.remove(id)
-    },
-    remove(id) {
-      this.notifications.splice(this.notifications.findIndex(n => n.id === id), 1)
+// Define the close emit
+const emits = defineEmits<{
+  (e: "close"): void;
+}>();
 
-      clearTimeout(this.timeouts[id])
-    }
-  },
-  render() {
-    return h(
-      TransitionGroup,
-      {
-        'enter-active-class':
-          this.notificationsByGroup.length > 1
-            ? [this.enter, this.moveDelay].join(' ')
-            : this.enter,
-        'enter-from-class': this.enterFrom,
-        'enter-to-class': this.enterTo,
-        'leave-active-class': this.leave,
-        'leave-from-class': this.leaveFrom,
-        'leave-to-class': this.leaveTo,
-        'move-class': this.move,
-      },
-      {
-        default: () => {
-          return this.$slots.default({
-            notifications: this.sortedNotifications,
-            close: this.close,
-          })
-        }
-      }
-    )
-  },
-}
+// Set reference data
+const notifications: Ref<Notiwind.Notification[]> = ref([]);
+const timeouts: Record<number, unknown> = reactive({});
+
+// Creates an array of all notifications sliced down to the maximum amount of notifications allowed
+// reverses the order for top aligned notifications
+const sortedNotifications = computed(() => {
+  if (context.position === "bottom") {
+    return [...notificationsByGroup.value].slice(0, props.maxNotifications);
+  }
+
+  // if not bottom reverse the array
+  return [...notificationsByGroup.value]
+    .reverse()
+    .slice(0, props.maxNotifications);
+});
+
+// Sorts the notifications by the context group
+const notificationsByGroup = computed(() => {
+  return notifications.value.filter((n) => n.group === context.group);
+});
+
+// Adds a notification to this context
+const add = ({ notification, timeout }: Notiwind.AddSignature) => {
+  const DEFAULT_TIMEOUT = 3000;
+
+  if (!notification) {
+    console.error({ notification, timeout });
+    throw new Error("No Notification sent");
+  }
+
+  notifications.value.push(notification);
+
+  timeouts[notification.id] = setTimeout(() => {
+    remove(notification.id);
+  }, timeout || DEFAULT_TIMEOUT);
+};
+const close = (id: number) => {
+  emits("close");
+  remove(id);
+};
+const remove = (id: number) => {
+  notifications.value.splice(
+    notifications.value.findIndex((n) => n.id === id),
+    1
+  );
+
+  if (timeouts[id]) {
+    clearTimeout(timeouts[id] as number);
+  }
+};
+onMounted(() => {
+  events.on("notify", add as Handler);
+  events.on("close", remove as Handler);
+});
 </script>
+
+<template>
+  <TransitionGroup
+    v-bind="{
+      'enter-active-class':
+        notificationsByGroup.length > 1 ? [enter, moveDelay].join(' ') : enter,
+      'enter-from-class': enterFrom,
+      'enter-to-class': enterTo,
+      'leave-active-class': leave,
+      'leave-from-class': leaveFrom,
+      'leave-to-class': leaveTo,
+      'move-class': move,
+    }"
+  >
+    <slot
+      :notifications="sortedNotifications"
+      :close="close"
+    />
+  </TransitionGroup>
+</template>
