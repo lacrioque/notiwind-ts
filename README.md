@@ -1,18 +1,19 @@
 
-# Notiwind
+# Notiwind-Ts
 
-<a href="https://www.npmjs.com/package/notiwind">
+<a href="https://www.npmjs.com/package/notiwind-ts">
   <img src="https://img.shields.io/npm/v/notiwind.svg?color=41b883" alt="Npm Version">
 </a>
-<a href="https://bundlephobia.com/package/notiwind">
+<a href="https://bundlephobia.com/package/notiwind-ts">
   <img src="https://img.shields.io/bundlephobia/minzip/notiwind" alt="Size">
 </a>
-<a href="https://github.com/emmanuelsw/notiwind/blob/master/LICENSE">
+<a href="https://github.com/lacrioque/notiwind-ts/blob/master/LICENSE">
   <img src="https://img.shields.io/badge/license-MIT-428F7E.svg" alt="License">
 </a>
 
-A headless Vue 3 notification library to use with Tailwind CSS.
-This is a fork and port of [vue3-vt-notifications](https://github.com/killmenot/vue3-vt-notifications) created and modified by [killmenot](https://github.com/killmenot) to support Vue 3. Initially created by [sansil](https://github.com/sansil).
+A headless Vue 3 notification library iwth typescript to use with Tailwind CSS.
+Non-Typescript version created by [Emmanuel Deossa](https://github.com/emmanuelsw/notiwind)
+The non-typescript version is a fork and port of [vue3-vt-notifications](https://github.com/killmenot/vue3-vt-notifications) created and modified by [killmenot](https://github.com/killmenot) to support Vue 3. Initially created by [sansil](https://github.com/sansil).
 
 ## 🌟 Features
 

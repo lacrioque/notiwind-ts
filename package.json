@@ -1,7 +1,7 @@
 {
   "name": "notiwind-ts",
   "description": "A headless Vue 3 notification library to use with Tailwind CSS. TypeScript Edition",
-  "version": "1.2.6",
+  "version": "2.0.0",
   "main": "dist/index.umd.js",
   "module": "dist/index.mjs",
   "license": "MIT",
@@ -25,6 +25,7 @@
   "devDependencies": {
     "@babel/core": "^7.18.2",
     "@babel/preset-env": "^7.18.2",
+    "@rollup/plugin-typescript": "^8.5.0",
     "@rushstack/eslint-patch": "^1.2.0",
     "@typescript-eslint/parser": "^5.38.0",
     "@vitejs/plugin-vue": "^3.1.0",
@@ -51,6 +52,13 @@
     "tailwindcss",
     "tailwindui",
     "notifications",
-    "toast"
+    "toast",
+    "typescript"
+  ],
+  "files": [
+    "package.json",
+    "README.md",
+    "CHANGELOG.md",
+    "dist/"
   ]
 }

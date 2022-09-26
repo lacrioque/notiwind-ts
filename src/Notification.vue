@@ -4,11 +4,12 @@ import { TransitionGroup } from "vue";
 import { inject, computed, onMounted, ref, reactive } from "vue";
 import type { Ref } from "vue";
 import type { Handler } from "mitt";
+import type { NotificationContext, Notification, AddSignature } from "./notiwind.types";
 
 import { events } from "./events";
 
 // Set Context from NotificationGroup
-const context = inject("context") as Notiwind.NotificationContext;
+const context = inject("context") as NotificationContext;
 
 // Set props
 const props = withDefaults(
@@ -42,7 +43,7 @@ const emits = defineEmits<{
 }>();
 
 // Set reference data
-const notifications: Ref<Notiwind.Notification[]> = ref([]);
+const notifications: Ref<Notification[]> = ref([]);
 const timeouts: Record<number, unknown> = reactive({});
 
 // Creates an array of all notifications sliced down to the maximum amount of notifications allowed
@@ -64,7 +65,7 @@ const notificationsByGroup = computed(() => {
 });
 
 // Adds a notification to this context
-const add = ({ notification, timeout }: Notiwind.AddSignature) => {
+const add = ({ notification, timeout }: AddSignature) => {
   const DEFAULT_TIMEOUT = 3000;
 
   if (!notification) {

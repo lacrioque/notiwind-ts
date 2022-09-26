@@ -1,5 +1,11 @@
 # CHANGELOG
 
+<a name="2.0.0"></a>
+
+### 2.0.0 (2022-09-22)
+
+- Set up to build with vite and base everything on typescript
+
 <a name="1.2.6"></a>
 
 ### 1.2.6 (2022-06-08)

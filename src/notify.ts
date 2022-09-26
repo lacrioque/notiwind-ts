@@ -1,4 +1,5 @@
 import { events } from './events'
+import type { NotificationGenerator, Notification } from "./notiwind.types";
 
 let count = 0
 
@@ -7,10 +8,10 @@ const generateId = () => {
 }
 
 export const notify = (
-  notificationData: Notiwind.NotificationGenerator,
+  notificationData: NotificationGenerator,
   timeout: number
 ) => {
-  const notification: Notiwind.Notification = {
+  const notification: Notification = {
     id: generateId(),
     ...notificationData,
   };
