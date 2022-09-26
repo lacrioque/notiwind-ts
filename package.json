@@ -1,9 +1,10 @@
 {
   "name": "notiwind-ts",
   "description": "A headless Vue 3 notification library to use with Tailwind CSS. TypeScript Edition",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "main": "dist/index.umd.js",
   "module": "dist/index.mjs",
+  "type": "dist/index.d.ts",
   "license": "MIT",
   "author": {
     "name": "Markus Flür",
@@ -59,6 +60,7 @@
     "package.json",
     "README.md",
     "CHANGELOG.md",
-    "dist/"
+    "dist/",
+    "src/"
   ]
 }
