@@ -1,28 +1,31 @@
-<script>
-export default {
+<script lang="ts">
+import { defineComponent, h } from "vue";
+
+export default defineComponent({
   provide() {
     return {
-      ['context']: { group: this.group, position: this.position },
-    }
+      ["context"]: { group: this.group, position: this.position },
+    };
   },
   props: {
     group: {
       type: String,
-      default: '',
+      default: "",
     },
     position: {
       type: String,
-      default: 'top',
-      validator(value) {
-        return ['top', 'bottom'].includes(value)
-      },
+      default: "top",
+      validator: (val: string) => ["top", "bottom"].includes(val),
     },
   },
-  render() {
-    return this.$slots.default({
-      group: this.group,
-    })
-  },
-}
-</script>
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  setup(props: { group: string; position: string }, { slots }: any) {
+    
+    if(slots.default) {
+      return () => h("div", slots.default({group: props.group}));
+    }
 
+    return () => h("span", {title: "Somethign went wrong"});
+  },
+});
+</script>

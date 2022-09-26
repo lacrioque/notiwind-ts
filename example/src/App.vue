@@ -141,7 +141,7 @@
 </template>
 
 <script setup>
-import { notify, Notification, NotificationGroup } from "../../dist/index.esm"
+import { notify, Notification, NotificationGroup } from "../../dist/index.mjs"
 
 function onClickTop() {
   notify({

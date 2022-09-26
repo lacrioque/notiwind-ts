@@ -1,13 +1,7 @@
 <script setup lang="ts">
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { TransitionGroup } from "vue";
-import {
-  inject,
-  computed,
-  onMounted,
-  ref,
-  reactive,
-} from "vue";
+import { inject, computed, onMounted, ref, reactive } from "vue";
 import type { Ref } from "vue";
 import type { Handler } from "mitt";
 
@@ -117,9 +111,9 @@ onMounted(() => {
       'move-class': move,
     }"
   >
-    <slot
-      :notifications="sortedNotifications"
-      :close="close"
+    <slot 
+      :notifications="sortedNotifications" 
+      :close="close" 
     />
   </TransitionGroup>
 </template>
