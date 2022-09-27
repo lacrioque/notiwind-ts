@@ -1,7 +1,15 @@
 # CHANGELOG
 
-<a name="2.0.0"></a>
+<a name="2.0.2"></a>
+### 2.0.2 (2022-09-23)
 
+- Change type build to vue-tsc and republish
+
+<a name="2.0.1"></a>
+### 2.0.1 (2022-09-22)
+
+- Update typescript binding and ship src
+<a name="2.0.0"></a>
 ### 2.0.0 (2022-09-22)
 
 - Set up to build with vite and base everything on typescript
