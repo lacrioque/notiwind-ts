@@ -2,6 +2,9 @@ export interface NotificationGenerator {
     group: string;
     title: string;
     text: string;
+    options: {
+        [key: string]: any
+    }
 }
 
 export interface Notification {
@@ -9,6 +12,9 @@ export interface Notification {
     group: string;
     title: string;
     text: string;
+    options: {
+        [key: string]: any
+    }
 }
 
 export interface AddSignature {
